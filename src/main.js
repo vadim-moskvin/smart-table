@@ -25,6 +25,8 @@ function collectState() {
     const rowsPerPage = parseInt(state.rowsPerPage);    // приведём количество страниц к числу
     const page = parseInt(state.page ?? 1);                // номер страницы по умолчанию 1 и тоже число
 
+    state.total = [state.totalFrom, state.totalTo];
+
     return {                                            // расширьте существующий return вот так
         ...state,
         rowsPerPage,
@@ -40,7 +42,7 @@ function render(action) {
     let state = collectState(); // состояние полей из таблицы
     let result = [...data]; // копируем для последующего изменения
     // @todo: использование
-    result = applySearching(result, state, action);
+    //result = applySearching(result, state, action);
     result = applyFiltering(result, state, action);
     result = applySorting(result, state, action);
     result = applyPagination(result, state, action);
