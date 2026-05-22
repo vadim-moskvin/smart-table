@@ -25,8 +25,6 @@ function collectState() {
     const rowsPerPage = parseInt(state.rowsPerPage);    // приведём количество страниц к числу
     const page = parseInt(state.page ?? 1);                // номер страницы по умолчанию 1 и тоже число
 
-    state.total = [state.totalFrom, state.totalTo];
-
     return {                                            // расширьте существующий return вот так
         ...state,
         rowsPerPage,
@@ -43,7 +41,7 @@ async function render(action) {
     let query = {}; // здесь будут формироваться параметры запроса
     // другие apply*
     // result = applySearching(result, state, action);
-    // result = applyFiltering(result, state, action);
+    query = applyFiltering(query, state, action); // result заменяем на query
     // result = applySorting(result, state, action);
     query = applyPagination(query, state, action); // обновляем query
 
@@ -78,9 +76,7 @@ const applySorting = initSorting([        // Нам нужно передать 
     sampleTable.header.elements.sortByTotal
 ]);
 
-// const applyFiltering = initFiltering(sampleTable.filter.elements, {    // передаём элементы фильтра
-//     searchBySeller: indexes.sellers                                    // для элемента с именем searchBySeller устанавливаем массив продавцов
-// });
+const {applyFiltering, updateIndexes} = initFiltering(sampleTable.filter.elements);
 
 const applySearching = initSearching('search');
 
@@ -89,6 +85,10 @@ appRoot.appendChild(sampleTable.container);
 
 async function init(){
     const indexes = await api.getIndexes();
+
+    updateIndexes(sampleTable.filter.elements, {
+        searchBySeller: indexes.sellers
+    });
 }
 
 init().then(render);
