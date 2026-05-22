@@ -1,4 +1,4 @@
-export function initFiltering(elements, indexes) {
+export function initFiltering(elements) {
     const updateIndexes = (elements, indexes) => {
         Object.keys(indexes).forEach((elementName) => {
             elements[elementName].append(...Object.values(indexes[elementName]).map(name => {
@@ -19,7 +19,6 @@ export function initFiltering(elements, indexes) {
             state[input.getAttribute('data-field')] = null;
         }
 
-        // @todo: #4.5 — отфильтровать данные, используя компаратор
         const filter = {};
         Object.keys(elements).forEach(key => {
             if (elements[key]) {
