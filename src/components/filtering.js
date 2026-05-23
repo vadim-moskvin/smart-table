@@ -13,7 +13,7 @@ export function initFiltering(elements) {
     const applyFiltering = (query, state, action) => {
         // код с обработкой очистки поля
         if (action && action.name === 'clear') {
-            const parent = action.parent;
+            const parent = action.parentElement;
             const input = parent.querySelector('input');
             input.value = null;
             state[input.getAttribute('data-field')] = null;
